@@ -9,25 +9,40 @@ const service = new LastFmService();
 
 const state = {
     albums: [],
+    rated_albums: [],
 }
 
 const getters = {
     albums: state => state.albums,
+    rated_albums: state => state.rated_albums,
 }
 
 const mutations = {
-    getAlbumsByTag(state, tag){
-        service.getAlbumsByTag(tag)
-                .then((response) => {
-                    state.albums = service.responseToAlbums(response.data.albums.album);
-                }) 
-    }
+    SET_ALBUMS(state, albums){
+        state.albums = albums;
+    },
 
+    ADD_RATED_ALBUM(state, album){
+        state.rated_albums.push(album);
+    }
 }
 
 const actions = {
     getAlbumsByTag(context, tag){
-        context.commit("getAlbumsByTag", tag);
+        service.getAlbumsByTag(tag)
+                .then((albums)=>{
+                    context.commit("SET_ALBUMS", albums);
+                })
+    },
+
+    addRatedAlbum(context, {album, rating}){
+        album.rating = rating;
+        context.commit("ADD_RATED_ALBUM", album);
+    },
+
+    removeAlbumFromList(context, albumId){
+        const albums = context.state.albums.filter(album => album.id != albumId);
+        context.commit("SET_ALBUMS", albums);
     }
 }
 

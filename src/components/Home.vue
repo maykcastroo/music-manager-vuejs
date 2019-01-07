@@ -2,26 +2,33 @@
     <div class="container">
         <div class="albums-list">
             <div v-for="album in albums" class="albums-list-item" :key=album.id>
-                <img class="album-cover" :src="album.cover">
+                <album-view v-bind:album="album"></album-view>          
             </div>
         </div>
     </div>
 </template>
 
 <script>
+
+import AlbumView from './AlbumView';
+
 export default {
     name: "Home",
     
+    components:{
+        albumView: AlbumView,
+    },
+
     created(){
-        this.$store.dispatch("getAlbumsByTag", 'country');
+        this.$store.dispatch("getAlbumsByTag", 'pop');
     },
 
     computed: {
         albums() {
             return this.$store.getters.albums;     
         }
-    }
-
+    },
+    
 }
 </script>
 
@@ -41,9 +48,5 @@ export default {
     .albums-list-item{
         width: 22%;
         margin-bottom: 2em;
-    }
-
-    .album-cover{
-        max-width: 100%;
     }
 </style>

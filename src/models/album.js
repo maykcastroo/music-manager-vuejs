@@ -1,10 +1,11 @@
 export default class Album{
-    constructor({id, name, cover, artist, tracks}){
+    constructor({id, name, cover, artist, tracks, rating=0}){
         this._id = id;
         this._name = name;
         this._cover = cover;
         this._artist = artist;
         this._tracks = tracks;
+        this._rating = rating;
     }
 
     get id(){
@@ -27,4 +28,11 @@ export default class Album{
         return this._tracks;
     }
 
+    get rating(){
+        return this._rating;
+    }
+
+    set rating(rating){
+        this._rating = rating;
+    }
 }
